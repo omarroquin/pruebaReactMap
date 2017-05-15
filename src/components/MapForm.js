@@ -51,7 +51,7 @@ class MapForm extends Component {
     }
     if (i === 3) {
         $.ajax({
-          url: "http://maps.googleapis.com/maps/api/directions/json?origin=" + this.state.start + ",Bogota,Colombia&destination=" + this.state.end + ",Bogota,Colombia",
+          url: "http://maps.googleapis.com/maps/api/directions/json?origin=" + this.state.start.replace("#", "") + ",Bogota,Colombia&destination=" + this.state.end.replace("#", "") + ",Bogota,Colombia",
           type: "GET",
           success: (response) => {
             this.props.servicio(response)
