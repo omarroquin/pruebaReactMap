@@ -38,7 +38,6 @@ class MapComponent extends Component {
 
   render() {
     if (this.props.service) {
-      console.log(this.props.service)
       const nextMarkers = [
         {
           position: this.props.service.routes[0].legs[0].end_location,

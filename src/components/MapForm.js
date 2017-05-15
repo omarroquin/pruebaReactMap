@@ -54,6 +54,7 @@ class MapForm extends Component {
           url: "http://maps.googleapis.com/maps/api/directions/json?origin=" + this.state.start.replace("#", "") + ",Bogota,Colombia&destination=" + this.state.end.replace("#", "") + ",Bogota,Colombia",
           type: "GET",
           success: (response) => {
+            $("#distance").removeClass("hide")
             this.props.servicio(response)
           }
         });
@@ -61,6 +62,11 @@ class MapForm extends Component {
   }
 
   render() {
+    if (this.props.service) {
+      this.distance = this.props.service.routes[0].legs[0].distance.text
+    } else {
+      this.distance = ""
+    }
     return (
       <div>
         <form className="map-form" onSubmit={this.onSubmit}>
@@ -104,6 +110,9 @@ class MapForm extends Component {
               Iniciar Sesión
             </button>
           </div>
+          <div id="distance" className="hide">
+            La distancia entre los dos puntos es: {this.distance}
+          </div>
         </form>
         <MapComponent />
       </div>
@@ -116,4 +125,8 @@ MapForm = reduxForm({
   form: 'map' // a unique name for this form
 })(MapForm);
 
-export default connect(null, actions)(MapForm)
+const mapStateProps = state => {
+  return {service: state.service}
+}
+
+export default connect(mapStateProps, actions)(MapForm)
