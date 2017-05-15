@@ -1,0 +1,10 @@
+.login-container {
+  text-align: center;
+}
+.form-signin {
+  max-width: 500px;
+  display: inline-block;
+}
+#text-error {
+  color: #a00;
+}
