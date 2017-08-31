@@ -27,7 +27,7 @@ class MapComponent extends Component {
     };
 
     this.handleMapLoad = this.handleMapLoad.bind(this);
-  }  
+  }
 
   handleMapLoad(map) {
     this._mapComponent = map;
@@ -50,7 +50,7 @@ class MapComponent extends Component {
           key: 0, // Add a key property for: http://fb.me/react-warning-keys
         },
       ];
-      this.state.markers = nextMarkers
+      this.setState({markers: nextMarkers})
     }
     return (
       <div className="map" style={{height: `100%`}}>
