@@ -4,10 +4,10 @@ import userReducer from './userReducer'
 import serviceReducer from './serviceReducer'
 
 const reducers = {
-  // ... your other reducers here ...
-  user: userReducer,
-  service: serviceReducer,
-  form: formReducer
+	// ... your other reducers here ...
+	user: userReducer,
+	service: serviceReducer,
+	form: formReducer
 }
 const reducer = combineReducers(reducers)
 

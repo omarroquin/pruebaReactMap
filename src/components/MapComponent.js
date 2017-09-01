@@ -1,81 +1,42 @@
-/* global google */
-import _ from "lodash"
-import React, { Component } from "react"
-import Helmet from "react-helmet"
-import { withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import React from 'react'
 import { connect } from 'react-redux'
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl'
 
-const Map = withGoogleMap(props => (
-  <GoogleMap
-    ref={props.onMapLoad}
-    defaultZoom={10}
-    defaultCenter={{ lat: 4.700851, lng: -74.121095 }}
-  >
-    {props.markers.map(marker => (
-      <Marker
-        {...marker}
-      />
-    ))}
-  </GoogleMap>
-));
+const Map = ReactMapboxGl({
+	accessToken: 'pk.eyJ1Ijoib21hcnJvcXVpbiIsImEiOiJjajcwcTJma3gwMTEzMzNueHppbnZ2OWlkIn0.56awW3Y_LSZtwOO0XSDMGw'
+})
 
-class MapComponent extends Component {
-  constructor() {
-    super()
-    this.state = {
-      markers: [],
-    };
+class MapComponent extends React.Component {
 
-    this.handleMapLoad = this.handleMapLoad.bind(this);
-  }
+	componentDidMount() {}
 
-  handleMapLoad(map) {
-    this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
-  }
+	render() {
+		const listMarkers = this.props.markers.map((marker, index) => (
+			<Marker key={index}
+				coordinates={[marker.lng, marker.lat]}
+				anchor="bottom">
+				<img src="/marker.png" alt="marker" height="40px" />
+			</Marker>
+		))
 
-  render() {
-    if (this.props.service) {
-      const nextMarkers = [
-        {
-          position: this.props.service.routes[0].legs[0].end_location,
-          defaultAnimation: 2,
-          key: 1, // Add a key property for: http://fb.me/react-warning-keys
-        },
-        {
-          position: this.props.service.routes[0].legs[0].start_location,
-          defaultAnimation: 2,
-          key: 0, // Add a key property for: http://fb.me/react-warning-keys
-        },
-      ];
-      this.setState({markers: nextMarkers})
-    }
-    return (
-      <div className="map" style={{height: `100%`}}>
-        <Helmet
-          title="Mapa de servicio"
-        />
-        <Map
-          containerElement={
-            <div style={{ height: `100%` }} />
-          }
-          mapElement={
-            <div style={{ height: `100%` }} />
-          }
-          onMapLoad={this.handleMapLoad}
-          onMapClick={this.handleMapClick}
-          markers={this.state.markers}
-          onMarkerRightClick={this.handleMarkerRightClick}
-        />
-      </div>
-    );
-  }
+		return (
+			<div className="map">
+				<Map
+					style="mapbox://styles/mapbox/streets-v9"
+					containerStyle={{
+						height: '100%',
+						width: '100%'
+					}}
+					center={[-74.047985, 4.683285]}>
+					{listMarkers}
+				</Map>
+			</div>
+		)
+	}
 }
 
 const mapStateProps = state => {
-  return {service: state.service}
+	return {service: state.service}
 }
 
 export default connect(mapStateProps)(MapComponent)
